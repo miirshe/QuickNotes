@@ -1,0 +1,22 @@
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const QuickNotesDB = require('./model/QuickNotesDB');
+const userRoute = require('./routes/userRoute');
+const dotenv = require('dotenv');
+dotenv.config();
+const PORT = process.env.port | 3000
+const app = express();
+app.use(express.json());
+
+app.use(cors());
+
+app.use(cookieParser());
+
+QuickNotesDB();
+
+app.use('/api', userRoute)
+
+app.listen(PORT, () => {
+    console.log(`listening on port ${PORT}`);
+})
