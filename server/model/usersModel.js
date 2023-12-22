@@ -12,11 +12,17 @@ const user = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    createdAt : {
+        type : Date,
+        default : () => Date.now()
+    },
+    updatedAt : {
+        type : Date,
+        default : () => Date.now()
     }
-}, {
-    timestamps: true, // Enable timestamps
 })
 
-const userModel = mongoose.model('user', user);
+const userModel = mongoose.model('users', user);
 
 module.exports = userModel;
