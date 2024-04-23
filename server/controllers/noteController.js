@@ -110,12 +110,60 @@ exports.deleteNote = async (req, res) => {
     }
 }
 
-// delete a note
+// get a note
 exports.getNotes = async (req, res) => {
     try {
         const userId = req.userId;
         const getNotes = await noteModel.find({ userId: userId });
         if (getNotes.length == []) {
+            return res.json({
+                status: false,
+                message: 'Note not existing'
+            })
+        }
+        res.json({
+            status: true,
+            getNotes
+        })
+
+    } catch (error) {
+        console.log('error fetching note', error);
+        res.json({
+            status: false,
+            message: 'error fetching note'
+        })
+    }
+}
+
+
+exports.getPendingNotes = async (req, res) => {
+    try {
+        
+        const getNotes = await noteModel.find({userId : req.userId,  status: 'pending' });
+        if (getNotes.length == 0) {
+            return res.json({
+                status: false,
+                message: 'Note not existing'
+            })
+        }
+        res.json({
+            status: true,
+            getNotes
+        })
+
+    } catch (error) {
+        console.log('error fetching note', error);
+        res.json({
+            status: false,
+            message: 'error fetching note'
+        })
+    }
+}
+exports.getCompletedNotes = async (req, res) => {
+    try {
+        
+        const getNotes = await noteModel.find({userId : req.userId,  status: 'completed' });
+        if (getNotes.length == 0) {
             return res.json({
                 status: false,
                 message: 'Note not existing'

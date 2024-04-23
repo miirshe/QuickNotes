@@ -77,7 +77,8 @@ const loginUser = async(req, res) => {
 
         res.json({
             status: true,
-            message: 'successfully login...'
+            message: 'successfully login...',
+            userToken
         })
 
     } catch (error) {
@@ -117,6 +118,30 @@ const fetchUsers = async(req, res) => {
 const fetchUser = async(req, res) => {
     try {
         const user = await userModel.findById({ _id: req.params.id });
+        if (!user) {
+            return res.json({
+                status: false,
+                message: 'Not found...'
+            })
+        }
+
+        return res.json({
+            status: true,
+            user
+        })
+
+    } catch (error) {
+        res.json({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+
+const fetchCurrentUser = async(req, res) => {
+    try {
+        const user = await userModel.findById({ _id: req.userId});
         if (!user) {
             return res.json({
                 status: false,
@@ -215,5 +240,6 @@ module.exports = {
     fetchUser,
     fetchUsers,
     deleteUser,
-    updateUser
+    updateUser,
+    fetchCurrentUser
 }

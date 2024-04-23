@@ -1,9 +1,11 @@
 const express = require('express');
-const { createNote, updateNote, deleteNote, getNotes } = require('../controllers/noteController');
+const { createNote, updateNote, deleteNote, getNotes, getCompletedNotes, getPendingNotes } = require('../controllers/noteController');
 const { userAuthenticate } = require('../middleware/userAuthentication');
 const noteRoutes = express.Router();
 noteRoutes.post('/note',userAuthenticate,createNote);
 noteRoutes.put('/note/:id',userAuthenticate,updateNote);
 noteRoutes.delete('/note/:id',userAuthenticate,deleteNote);
 noteRoutes.get('/notes',userAuthenticate,getNotes);
+noteRoutes.get('/notes/completed',userAuthenticate,getCompletedNotes);
+noteRoutes.get('/notes/pending',userAuthenticate,getPendingNotes);
 module.exports = noteRoutes;
